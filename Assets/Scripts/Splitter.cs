@@ -1,20 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SplitterController : MonoBehaviour
+public class Splitter : MonoBehaviour
 {
     [SerializeField] private Spawner _spawner;
     [SerializeField] private Exploder _exploder;
+    [SerializeField] private Raycaster _raycaster;
 
-    public void SplitCube(Cube cube)
+    public void SplitCube()
     {
+        Cube cube = _raycaster.CheckHit();
+
         if (cube != null && _exploder != null && _spawner != null)
         {
             float chance = Random.value;
 
             if (chance <= cube.SplitChance)
             {
-                List<Cube> newCubes = _spawner.Split(cube);
+                List<Rigidbody> newCubes = _spawner.Spawn(cube);
                 _exploder.Explode(newCubes, cube.transform.position);
             }
 

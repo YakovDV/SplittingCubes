@@ -2,23 +2,19 @@ using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
-    [SerializeField] private SplitterController _splitterController;
+    [SerializeField] private Splitter _splitterController;
 
-    private void Update()
+    public Cube CheckHit()
     {
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        Cube cube = null;
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-
-                Cube cube = hit.collider.GetComponent<Cube>();
-
-                if (cube != null && _splitterController != null)
-                    _splitterController.SplitCube(cube);
-
-            }
+            hit.collider.TryGetComponent<Cube>(out cube);
         }
+
+        return cube;
     }
 }
