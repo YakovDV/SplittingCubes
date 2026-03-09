@@ -18,9 +18,10 @@ public class Splitter : MonoBehaviour
             if (chance <= cube.SplitChance)
             {
                 List<Rigidbody> newCubes = _spawner.Spawn(cube);
-                _exploder.Explode(newCubes, cube.transform.position);
+                _exploder.Explode(cube.transform.position, newCubes);
             }
 
+            _exploder.Explode(cube.transform.position);
             Destroy(cube.gameObject);
         }
     }

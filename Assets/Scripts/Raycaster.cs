@@ -4,7 +4,7 @@ public class Raycaster : MonoBehaviour
 {
     [SerializeField] private Splitter _splitterController;
 
-    public Cube CheckHit()
+    public Cube SearchCube()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
