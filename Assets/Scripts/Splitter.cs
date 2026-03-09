@@ -9,7 +9,7 @@ public class Splitter : MonoBehaviour
 
     public void SplitCube()
     {
-        Cube cube = _raycaster.CheckHit();
+        Cube cube = _raycaster.SearchCube();
 
         if (cube != null && _exploder != null && _spawner != null)
         {
