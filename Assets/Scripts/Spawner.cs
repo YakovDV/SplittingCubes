@@ -6,6 +6,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int _minCubes = 2;
     [SerializeField] private int _maxCubes = 6;
     [SerializeField] private Cube _prefab;
+    [SerializeField] private ColorChanger _colorChanger;
 
     private int _divisor = 2;
 
@@ -29,9 +30,10 @@ public class Spawner : MonoBehaviour
 
             float newSplitChance = parent.SplitChance / _divisor;
             Vector3 newScale = parent.transform.localScale / _divisor;
-            Color newColor = Random.ColorHSV();
+            _colorChanger.ChangeColor(child);
 
-            child.SetNewStats(newSplitChance, newScale, newColor);
+
+            child.SetNewStats(newSplitChance, newScale);
 
             Rigidbody childRigidbody = child.GetRigidbody();
 

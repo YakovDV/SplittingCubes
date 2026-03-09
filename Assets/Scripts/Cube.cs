@@ -9,7 +9,6 @@ public class Cube : MonoBehaviour
     [SerializeField] private float _splitChance = 1f;
 
     public float SplitChance => _splitChance;
-    public Color CubeColor { get; set; }
 
     private Rigidbody _rigidbody;
 
@@ -22,17 +21,12 @@ public class Cube : MonoBehaviour
         }
     }
 
-    public void SetNewStats(float chance, Vector3 scale, Color color)
+    public void SetNewStats(float chance, Vector3 scale)
     {
         _splitChance = chance;
         transform.localScale = scale;
 
         bool hasRenderer = TryGetComponent<Renderer>(out Renderer renderer);
-
-        if (hasRenderer)
-        {
-            renderer.material.color = color;
-        }
     }
 
     public Rigidbody GetRigidbody()
