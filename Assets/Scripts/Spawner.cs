@@ -6,14 +6,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int _minCubes = 2;
     [SerializeField] private int _maxCubes = 6;
     [SerializeField] private Cube _prefab;
-    [SerializeField] private ColorRandomizer _colorRandomizer;
 
     private int _divisor = 2;
 
-    public List<Cube> Split(Cube parent)
+    public List<Rigidbody> Spawn(Cube parent)
     {
         int splitCount = Random.Range(_minCubes, _maxCubes + 1);
-        List<Cube> childCubes = new List<Cube>();
+        List<Rigidbody> childCubes = new List<Rigidbody>();
 
         for (int i = 0; i < splitCount; i++)
         {
@@ -27,14 +26,16 @@ public class Spawner : MonoBehaviour
             Cube child = Instantiate(_prefab, position, Quaternion.identity);
 
             child.transform.localScale = parent.transform.localScale / _divisor;
-            child.SetSplitChance(parent.SplitChance / _divisor);
 
-            if (_colorRandomizer != null)
-            {
-                _colorRandomizer.SetColor(child);
-            }
+            float newSplitChance = parent.SplitChance / _divisor;
+            Vector3 newScale = parent.transform.localScale / _divisor;
+            Color newColor = Random.ColorHSV();
 
-            childCubes.Add(child);
+            child.SetNewStats(newSplitChance, newScale, newColor);
+
+            Rigidbody childRigidbody = child.GetRigidbody();
+
+            childCubes.Add(childRigidbody);
         }
 
         return childCubes;
