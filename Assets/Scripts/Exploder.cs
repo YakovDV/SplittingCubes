@@ -3,22 +3,37 @@ using UnityEngine;
 
 public class Exploder : MonoBehaviour
 {
-    [SerializeField] private ExplodeAssistant _explodeAssistant;
-
-    public void Explode(Vector3 explosionCenter, List<Rigidbody> cubes = null)
+    public void Explode(Cube cube, List<Rigidbody> cubesToExplode = null)
     {
-        if (cubes == null)
+        float sizeModificator = 1f / cube.transform.localScale.magnitude;
+        float force = cube.ExposionForce * sizeModificator;
+        float radius = cube.ExposionRadius * sizeModificator;
+
+        Vector3 center = cube.transform.position;
+
+        if (cubesToExplode == null)
         {
-            cubes = _explodeAssistant.GetExplodableObjects(explosionCenter);
+            cubesToExplode = GetExplodableObjects(center, radius);
         }
 
-        float explosionRadius = _explodeAssistant.ExposionRadius;
-
-        foreach (Rigidbody cube in cubes)
+        foreach (Rigidbody cubeToExplode in cubesToExplode)
         {
-            float force = _explodeAssistant.CalculateExlosionStats(explosionCenter, cube.transform.position, cube.transform.localScale, out explosionRadius);
-
-            cube.AddExplosionForce(force, explosionCenter, explosionRadius);
+            cubeToExplode.AddExplosionForce(force, center, radius);
         }
+    }
+
+    public List<Rigidbody> GetExplodableObjects(Vector3 center, float explosionRadius)
+    {
+        Collider[] hits = Physics.OverlapSphere(center, explosionRadius);
+
+        List<Rigidbody> cubes = new();
+
+        foreach (Collider hit in hits)
+        {
+            if (hit.attachedRigidbody != null)
+                cubes.Add(hit.attachedRigidbody);
+        }
+
+        return cubes;
     }
 }
