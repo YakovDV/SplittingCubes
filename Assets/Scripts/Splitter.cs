@@ -9,7 +9,7 @@ public class Splitter : MonoBehaviour
 
     private void OnEnable()
     {
-        _raycaster.CubeHit += SplitCube;
+        Cube cube = _raycaster.SearchCube();
     }
 
     public void SplitCube(Cube cube)
@@ -31,7 +31,7 @@ public class Splitter : MonoBehaviour
             _spawner.RemoveCube(cube);
         }
     }
-
+    
     private void OnDisable()
     {
         _raycaster.CubeHit -= SplitCube;
