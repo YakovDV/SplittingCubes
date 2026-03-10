@@ -42,14 +42,14 @@ public class Spawner : MonoBehaviour
         Destroy(cube.gameObject);
     }
 
-    private Vector3 CalculatePosition(Cube baseCube)
+    private Vector3 CalculatePosition(Cube cube)
     {
-        float positionOffsetX = Random.Range(-baseCube.transform.localScale.x, baseCube.transform.localScale.x);
-        float positionOffsetZ = Random.Range(-baseCube.transform.localScale.z, baseCube.transform.localScale.z);
+        float positionOffsetX = Random.Range(-cube.transform.localScale.x, cube.transform.localScale.x);
+        float positionOffsetZ = Random.Range(-cube.transform.localScale.z, cube.transform.localScale.z);
 
         Vector3 positionOffsetRandom = new(positionOffsetX, 0f, positionOffsetZ);
 
-        Vector3 position = baseCube.transform.position + positionOffsetRandom;
+        Vector3 position = cube.transform.position + positionOffsetRandom;
 
         return position;
     }
