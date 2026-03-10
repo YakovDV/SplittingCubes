@@ -7,10 +7,13 @@ public class Splitter : MonoBehaviour
     [SerializeField] private Exploder _exploder;
     [SerializeField] private Raycaster _raycaster;
 
-    public void SplitCube()
+    private void OnEnable()
     {
-        Cube cube = _raycaster.SearchCube();
+        _raycaster.CubeHit += SplitCube;
+    }
 
+    public void SplitCube(Cube cube)
+    {
         if (cube != null && _exploder != null && _spawner != null)
         {
             float chance = Random.value;
@@ -18,11 +21,19 @@ public class Splitter : MonoBehaviour
             if (chance <= cube.SplitChance)
             {
                 List<Rigidbody> newCubes = _spawner.Spawn(cube);
-                _exploder.Explode(cube.transform.position, newCubes);
+                _exploder.Explode(cube, newCubes);
+            }
+            else
+            {
+                _exploder.Explode(cube);
             }
 
-            _exploder.Explode(cube.transform.position);
-            Destroy(cube.gameObject);
+            _spawner.RemoveCube(cube);
         }
+    }
+
+    private void OnDisable()
+    {
+        _raycaster.CubeHit -= SplitCube;
     }
 }

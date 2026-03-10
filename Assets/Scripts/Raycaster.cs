@@ -1,20 +1,37 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Raycaster : MonoBehaviour
 {
-    [SerializeField] private Splitter _splitterController;
+    [SerializeField] private InputReader _inputReader;
+    [SerializeField] private Cube _cube;
 
-    public Cube SearchCube()
+    public event UnityAction<Cube> CubeHit;
+
+    private void OnEnable()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        _inputReader.ButtonClicked += SearchCube;
+    }
+
+    public void SearchCube(Vector3 position)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(position);
 
         Cube cube = null;
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            hit.collider.TryGetComponent<Cube>(out cube);
-        }
+            cube = hit.collider.GetComponent<Cube>();
 
-        return cube;
+            if (cube != null)
+            {
+                CubeHit?.Invoke(cube);
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        _inputReader.ButtonClicked -= SearchCube;
     }
 }

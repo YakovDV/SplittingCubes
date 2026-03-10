@@ -7,30 +7,24 @@ using UnityEngine;
 public class Cube : MonoBehaviour
 {
     [SerializeField] private float _splitChance = 1f;
-
-    public float SplitChance => _splitChance;
+    [SerializeField] private float _explosionRadius;
+    [SerializeField] private float _explosionForce;
 
     private Rigidbody _rigidbody;
+
+    public float ExposionRadius => _explosionRadius;
+    public float ExposionForce => _explosionForce;
+    public float SplitChance => _splitChance;
+    public Rigidbody Rigidbody => _rigidbody;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        if (_rigidbody == null)
-        {
-            _rigidbody = gameObject.AddComponent<Rigidbody>();
-        }
     }
 
     public void SetNewStats(float chance, Vector3 scale)
     {
         _splitChance = chance;
         transform.localScale = scale;
-
-        bool hasRenderer = TryGetComponent<Renderer>(out Renderer renderer);
-    }
-
-    public Rigidbody GetRigidbody()
-    {
-        return _rigidbody;
     }
 }
