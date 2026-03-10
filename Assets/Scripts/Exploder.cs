@@ -1,10 +1,15 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Exploder : MonoBehaviour
 {
+    [SerializeField] private LayerMask _layerMask;
+
     public void Explode(Cube cube, List<Rigidbody> cubesToExplode = null)
     {
+
         float sizeModificator = 1f / cube.transform.localScale.magnitude;
         float force = cube.ExposionForce * sizeModificator;
         float radius = cube.ExposionRadius * sizeModificator;
@@ -24,7 +29,7 @@ public class Exploder : MonoBehaviour
 
     public List<Rigidbody> GetExplodableObjects(Vector3 center, float explosionRadius)
     {
-        Collider[] hits = Physics.OverlapSphere(center, explosionRadius);
+        Collider[] hits = Physics.OverlapSphere(center, explosionRadius, _layerMask);
 
         List<Rigidbody> cubes = new();
 
