@@ -4,8 +4,7 @@ public class ColorChanger : MonoBehaviour
 {
     public void ChangeColor(Cube cube)
     {
-        Renderer renderer = cube.GetComponent<Renderer>();
-
-        renderer.material.color = Random.ColorHSV();
+        if (cube.TryGetComponent<Renderer>(out Renderer renderer))
+            renderer.material.color = Random.ColorHSV();
     }
 }
