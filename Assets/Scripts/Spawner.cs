@@ -22,16 +22,9 @@ public class Spawner : MonoBehaviour
 
             Cube child = Instantiate(_prefab, position, Quaternion.identity);
 
-            float newSplitChance = parent.SplitChance / _chanceDivisor;
-            Vector3 newScale = parent.transform.localScale / _scaleDivisor;
+            child = GenerateCubeStats(parent, child);
 
-            _colorChanger.ChangeColor(child);
-
-            child.SetNewStats(newSplitChance, newScale);
-
-            Rigidbody childRigidbody = child.Rigidbody;
-
-            childCubes.Add(childRigidbody);
+            childCubes.Add(child.Rigidbody);
         }
 
         return childCubes;
@@ -52,5 +45,17 @@ public class Spawner : MonoBehaviour
         Vector3 position = cube.transform.position + positionOffsetRandom;
 
         return position;
+    }
+
+    private Cube GenerateCubeStats(Cube parent, Cube child)
+    {
+        float newSplitChance = parent.SplitChance / _chanceDivisor;
+        Vector3 newScale = parent.transform.localScale / _scaleDivisor;
+
+        _colorChanger.ChangeColor(child);
+
+        child.SetNewStats(newSplitChance, newScale);
+
+        return child;
     }
 }

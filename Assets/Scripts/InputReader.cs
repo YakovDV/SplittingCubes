@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.Events;
+using System;
 
 public class InputReader : MonoBehaviour
 {
     [SerializeField] private int _button = 0;
-    public event UnityAction<Vector3> ButtonClicked;
+    public event Action<Vector3> ButtonClicked;
 
     private void Update()
     {
